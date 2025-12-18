@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻聚合 - 实时资讯平台</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- 引入图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入中文字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 动态背景 -->
+    <div class="background-layer">
+        <div class="gradient-bg"></div>
+        <div class="particles" id="particles"></div>
+    </div>
+
+    <!-- 顶部导航栏 -->
+    <header class="header">
+        <div class="header-container">
+            <!-- Logo -->
+            <div class="logo">
+                <i class="fas fa-newspaper"></i>
+                <span>新闻聚合</span>
+            </div>
+
+            <!-- 导航菜单 -->
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-category="all">
+                    <i class="fas fa-home"></i>
+                    <span>首页</span>
+                </a>
+                <a href="#" class="nav-item" data-category="tech">
+                    <i class="fas fa-microchip"></i>
+                    <span>科技</span>
+                </a>
+                <a href="#" class="nav-item" data-category="finance">
+                    <i class="fas fa-chart-line"></i>
+                    <span>财经</span>
+                </a>
+                <a href="#" class="nav-item" data-category="sports">
+                    <i class="fas fa-futbol"></i>
+                    <span>体育</span>
+                </a>
+                <a href="#" class="nav-item" data-category="entertainment">
+                    <i class="fas fa-film"></i>
+                    <span>娱乐</span>
+                </a>
+            </nav>
+
+            <!-- 搜索框 -->
+            <div class="search-box">
+                <input type="text" placeholder="搜索新闻..." id="searchInput">
+                <button class="search-btn" id="searchBtn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+
+            <!-- 功能按钮 -->
+            <div class="header-actions">
+                <button class="action-btn" id="themeToggle" title="切换主题">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="action-btn" id="refreshBtn" title="刷新">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <button class="action-btn mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 移动端侧边菜单 -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="mobile-sidebar-header">
+            <span>菜单</span>
+            <button class="close-btn" id="closeSidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <nav class="mobile-nav">
+            <a href="#" class="mobile-nav-item active" data-category="all">
+                <i class="fas fa-home"></i>首页
+            </a>
+            <a href="#" class="mobile-nav-item" data-category="tech">
+                <i class="fas fa-microchip"></i>科技
+            </a>
+            <a href="#" class="mobile-nav-item" data-category="finance">
+                <i class="fas fa-chart-line"></i>财经
+            </a>
+            <a href="#" class="mobile-nav-item" data-category="sports">
+                <i class="fas fa-futbol"></i>体育
+            </a>
+            <a href="#" class="mobile-nav-item" data-category="entertainment">
+                <i class="fas fa-film"></i>娱乐
+            </a>
+        </nav>
+    </div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- 主内容区域 -->
+    <main class="main-content">
+        <div class="content-wrapper">
+            <!-- 左侧边栏 -->
+            <aside class="sidebar-left">
+                <!-- 日期时间卡片 -->
+                <div class="widget datetime-widget">
+                    <div class="current-time" id="currentTime">00:00:00</div>
+                    <div class="current-date" id="currentDate">2024年1月1日 星期一</div>
+                </div>
+
+                <!-- 快捷分类 -->
+                <div class="widget categories-widget">
+                    <h3 class="widget-title">
+                        <i class="fas fa-folder"></i>
+                        快捷分类
+                    </h3>
+                    <ul class="category-list">
+                        <li class="category-item active" data-category="all">
+                            <span class="category-name">全部新闻</span>
+                            <span class="category-count" id="countAll">0</span>
+                        </li>
+                        <li class="category-item" data-category="tech">
+                            <span class="category-name">科技数码</span>
+                            <span class="category-count" id="countTech">0</span>
+                        </li>
+                        <li class="category-item" data-category="finance">
+                            <span class="category-name">财经股市</span>
+                            <span class="category-count" id="countFinance">0</span>
+                        </li>
+                        <li class="category-item" data-category="sports">
+                            <span class="category-name">体育赛事</span>
+                            <span class="category-count" id="countSports">0</span>
+                        </li>
+                        <li class="category-item" data-category="entertainment">
+                            <span class="category-name">娱乐八卦</span>
+                            <span class="category-count" id="countEntertainment">0</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 收藏夹 -->
+                <div class="widget bookmarks-widget">
+                    <h3 class="widget-title">
+                        <i class="fas fa-bookmark"></i>
+                        我的收藏
+                    </h3>
+                    <div class="bookmarks-list" id="bookmarksList">
+                        <div class="empty-state">
+                            <i class="fas fa-bookmark"></i>
+                            <p>暂无收藏</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 中间新闻列表 -->
+            <section class="news-section">
+                <!-- 统计信息栏 -->
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <i class="fas fa-newspaper"></i>
+                        <span>共 <strong id="totalNews">0</strong> 条新闻</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-clock"></i>
+                        <span>更新于 <strong id="updateTime">--:--</strong></span>
+                    </div>
+                </div>
+
+                <!-- 新闻筛选栏 -->
+                <div class="news-filter">
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新
+                        </button>
+                        <button class="filter-tab" data-sort="hot">
+                            <i class="fas fa-fire"></i> 最热
+                        </button>
+                    </div>
+                    <div class="filter-actions">
+                        <select class="filter-select" id="timeFilter">
+                            <option value="all">全部时间</option>
+                            <option value="today">今天</option>
+                            <option value="week">本周</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 新闻卡片网格 -->
+                <div class="news-grid" id="newsGrid">
+                    <!-- 加载状态 -->
+                    <div class="loading-state" id="loadingState">
+                        <div class="loading-spinner"></div>
+                        <p>正在加载新闻...</p>
+                    </div>
+                </div>
+
+                <!-- 加载更多 -->
+                <div class="load-more" id="loadMore" style="display: none;">
+                    <button class="load-more-btn" id="loadMoreBtn">
+                        <i class="fas fa-plus"></i>
+                        <span>加载更多</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- 右侧边栏 -->
+            <aside class="sidebar-right">
+                <!-- 热门排行 -->
+                <div class="widget hot-ranking-widget">
+                    <h3 class="widget-title">
+                        <i class="fas fa-fire"></i>
+                        热门排行
+                    </h3>
+                    <ul class="ranking-list" id="rankingList">
+                        <!-- 动态生成 -->
+                    </ul>
+                </div>
+
+                <!-- 标签云 -->
+                <div class="widget tags-widget">
+                    <h3 class="widget-title">
+                        <i class="fas fa-tags"></i>
+                        热门标签
+                    </h3>
+                    <div class="tags-cloud" id="tagsCloud">
+                        <span class="tag">科技</span>
+                        <span class="tag">财经</span>
+                        <span class="tag">体育</span>
+                        <span class="tag">娱乐</span>
+                        <span class="tag">国际</span>
+                        <span class="tag">社会</span>
+                        <span class="tag">教育</span>
+                        <span class="tag">健康</span>
+                    </div>
+                </div>
+
+                <!-- 关于 -->
+                <div class="widget about-widget">
+                    <h3 class="widget-title">
+                        <i class="fas fa-info-circle"></i>
+                        关于
+                    </h3>
+                    <p class="about-text">
+                        新闻聚合平台，实时获取最新资讯，为您提供优质的阅读体验。
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fas fa-rss"></i></a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- 底部 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 新闻聚合平台 | 数据来源于新浪新闻</p>
+            <p>
+                <a href="rss.xml" target="_blank"><i class="fas fa-rss"></i> RSS订阅</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- 回到顶部按钮 -->
+    <button class="back-to-top" id="backToTop" title="回到顶部">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- 新闻详情模态框 -->
+    <div class="modal" id="newsModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-body" id="modalBody">
+                <!-- 动态内容 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="page.js"></script>
+</body>
+</html>

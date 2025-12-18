@@ -1,0 +1,38 @@
+{
+  "name": "sina-news",
+  "version": "1.0.0",
+  "description": "World Heard - 全球财经新闻聚合平台",
+  "main": "index.js",
+  "scripts": {
+    "build": "node index.js",
+    "dev": "node index.js && npx live-server dist",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon index.js"
+  },
+  "keywords": [
+    "news",
+    "rss",
+    "finance",
+    "sina",
+    "aggregator"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "abort-controller": "^3.0.0",
+    "feed": "^4.2.2",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "nodemon": "^3.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  }
+}
